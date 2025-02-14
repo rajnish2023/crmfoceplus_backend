@@ -6,6 +6,7 @@ const galleryRoutes = require('./routes/galleryRoutes')
 const blogCategoryRoutes = require('./routes/blogCategoryRoutes');
 const blogPostRoutes = require('./routes/blogPostRoutes');
 const userAuthRoutes = require('./routes/userAuthRoute');
+const frontendRoutes = require('./routes/frontendRoutes');
 
 dotenv.config();
 connectDB();
@@ -22,6 +23,7 @@ app.use('/api', galleryRoutes);
 app.use('/api', blogCategoryRoutes);
 app.use('/api/blog', blogPostRoutes);
 app.use('/api/auth', userAuthRoutes);
+app.use('/api/frontend', frontendRoutes);
 
 
 const PORT = process.env.PORT || 5000;
