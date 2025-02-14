@@ -223,7 +223,7 @@ exports.forgotPassword = async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ message: 'User not found' });
     const resetToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '15m' });
-    const resetLink = `http://localhost:3000/reset-password/${resetToken}`;
+    const resetLink = `https://crmforce-plusfrontend.onrender.com/reset-password/${resetToken}`;
 
     const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",   
