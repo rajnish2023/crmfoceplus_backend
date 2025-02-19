@@ -136,7 +136,6 @@ const getBlogPostBySlug = async (req, res) => {
 // Update a blog post by Id with auth user
 const updateBlogPost = async (req, res) => {
   const author = req.user._id;
-  console.log(author);
     try {
        
       const { title, slug, excerpt, content, category, metaTitle, metaDescription, metakeywords, status } = req.body;
