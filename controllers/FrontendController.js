@@ -19,7 +19,7 @@ exports.getAllBlogs = async (req, res) => {
 exports.getBlogBySlug = async (req, res) => {
     const { slug } = req.params;
     try {
-        const blog = await Blog.findOne({ slug });
+        const blog = await Blog.findOne({ slug }).populate('author').populate('category');
         res.status(200).json(blog);
     }
     catch (error) {
@@ -59,7 +59,7 @@ exports.getBlogsByAuthor = async (req, res) => {
     const { author } = req.params;
     try {
         const user = await User.findOne({ slug: author });
-        const blogs = await Blog.find({ author: user._id, status: 'Published' });
+        const blogs = await Blog.find({ author: user._id, status: 'Published' }).populate('author').populate('category');
         res.status(200).json(blogs);
     }
     catch (error) {
