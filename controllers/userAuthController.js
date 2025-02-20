@@ -84,9 +84,13 @@ exports.createUser = asyncHandler(async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);  
     let profilePic = req.file ? `${req.file.filename}` : '';
 
+    // create slug using name
+    const slug = name.toLowerCase().split(' ').join('-');
+
     // Create the new user
     const newUser = new User({
       name,
+      slug,
       email,
       password: hashedPassword,   
       profilePic,   
