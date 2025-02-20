@@ -17,7 +17,10 @@ router.get('/blogs/author/:author', BlogController.getBlogsByAuthor);
 router.get('/blogs/:slug', BlogController.getBlogBySlug);
 
 // Route to fetch categories list 
-router.get('/categories', BlogController.getCategories);
+router.get('/blog/categories', BlogController.getCategories);
+
+// Route to get author list
+router.get('/blog/authors', BlogController.getAuthors);
 
 
  

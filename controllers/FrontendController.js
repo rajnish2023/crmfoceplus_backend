@@ -66,6 +66,17 @@ exports.getBlogsByAuthor = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 }
+
+//fetch authors list if status is active 
+
+exports.getAuthors = async (req, res) => {
+    try {
+        const authors = await User.find({ status: 'Active' });
+        res.status(200).json(authors);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
  
 
  
