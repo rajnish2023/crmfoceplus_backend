@@ -58,7 +58,7 @@ exports.getBlogByCategorySlug = async (req, res) => {
 exports.getBlogsByAuthor = async (req, res) => {
     const { author } = req.params;
     try {
-        const user = await User.findOne({ name: author });
+        const user = await User.findOne({ slug: author });
         const blogs = await Blog.find({ author: user._id, status: 'Published' });
         res.status(200).json(blogs);
     }
@@ -77,6 +77,9 @@ exports.getAuthors = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+
+ 
  
 
  
