@@ -41,7 +41,14 @@ const createBlogPost = (req, res) => {
     if (!title || !slug || !excerpt || !content || !category || !author) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
-  
+   
+    // Calculate reading time
+  const wordsPerMinute = 200;
+  const words = content.split(/\s+/).length;
+  const readTime = Math.ceil(words / wordsPerMinute);
+
+
+
     const newPost = new BlogPost({
       title,
       slug,
@@ -54,7 +61,8 @@ const createBlogPost = (req, res) => {
       metakeywords,
       status,
       banner: banner ? banner.filename : '',    
-      metaimage: metaimage ? metaimage.filename : '',  
+      metaimage: metaimage ? metaimage.filename : '', 
+      readtimes: readTime
     });
   
     newPost.save()
@@ -158,6 +166,10 @@ const updateBlogPost = async (req, res) => {
         metaimage = req.files.metaimage[0].filename;  
       }
   
+       // Calculate reading time
+  const wordsPerMinute = 200;
+  const words = content.split(/\s+/).length;
+  const readTime = Math.ceil(words / wordsPerMinute);
        
       const updatedBlogPost = await BlogPost.findByIdAndUpdate(
         req.params.id,  
@@ -174,6 +186,7 @@ const updateBlogPost = async (req, res) => {
           author: author,
           banner: banner || undefined,  
           metaimage: metaimage || undefined, 
+          readtimes: readTime
         },
         { new: true }  
       );

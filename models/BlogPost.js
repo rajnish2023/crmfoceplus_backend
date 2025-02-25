@@ -13,6 +13,7 @@ const blogPostSchema = new mongoose.Schema(
     metakeywords: { type: String },
     metaimage: { type: String },
     status: { type: String, enum: ['Draft', 'Published'], default: 'Draft' },
+    readtimes: {type: String},
     author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   },
   { timestamps: true }
