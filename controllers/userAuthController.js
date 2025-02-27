@@ -116,14 +116,8 @@ exports.getUsers = asyncHandler(async (req, res) => {
 
 // Update User (profile update)
 exports.updateUser = asyncHandler(async (req, res) => {
-  const { userId } = req.params;
-  const { name, email, password, linkedin, aboutus, role } = req.body;
-
-  upload(req, res, async (err) => {
-    if (err) {
-      return res.status(400).json({ error: 'Image upload failed or file size too large' });
-    }
-
+ 
+  const { _id,name, email, linkedin, aboutus, role } = req.body;
     const updatedData = {
       name,
       email,
@@ -132,26 +126,17 @@ exports.updateUser = asyncHandler(async (req, res) => {
       role,
     };
 
-    // If a new profile image is uploaded, update the profilePic field
     if (req.file) {
-      updatedData.profilePic = `/uploads/profilePics/${req.file.filename}`;
+      updatedData.profilePic = `${req.file.filename}`;
     }
-
-    // If password is provided, hash it before updating
-    if (password) {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      updatedData.password = hashedPassword;
-    }
-
-    // Update the user in the database
-    const updatedUser = await User.findByIdAndUpdate(userId, updatedData, { new: true });
+    const updatedUser = await User.findByIdAndUpdate(_id, updatedData, { new: true });
 
     if (!updatedUser) {
       return res.status(404).json({ error: 'User not found' });
     }
 
     res.status(200).json({ message: 'User updated successfully', user: updatedUser });
-  });
+   
 });
 
 
