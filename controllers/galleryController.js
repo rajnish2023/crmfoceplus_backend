@@ -38,4 +38,4 @@ const createGallery = asyncHandler(async (req, res) => {
     res.status(201).json({ message: 'Gallery created successfully' });
 });
  
-module.exports = { getGalleries, createGallery, upload };
+module.exports = { getGalleries, createGallery, upload }; 
