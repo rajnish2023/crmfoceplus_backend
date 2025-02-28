@@ -18,6 +18,10 @@ exports.createCategory = asyncHandler(async (req, res) => {
     slug,
     status
   });
+  
+  if (req.file) {
+    newCategory.categoryimg = `${req.file.filename}`;
+  }
 
   await newCategory.save();
   res.status(201).json({ message: 'Category created successfully', category: newCategory });
@@ -40,37 +44,47 @@ exports.getCategoryBySlug = asyncHandler(async (req, res) => {
 });
 
  
-exports.updateCategory = asyncHandler(async (req, res) => {
-  const { name, slug, status } = req.body;
+// exports.updateCategory = asyncHandler(async (req, res) => {
+//   const { name, slug, status } = req.body;
+//   console.log(req.file);
 
-  const category = await BlogCategory.findOneAndUpdate(
-    { slug: req.params.slug },
-    { name, slug, status },
-    { new: true }
-  );
+//   const category = await BlogCategory.findOneAndUpdate(
+//     { slug: req.params.slug },
+//     { name, slug, status },
+//     { new: true }
+//   );
 
+//   if (req.file) {
+//     category.categoryimg = `${req.file.filename}`;
+//   }
+
+//   if (!category) {
+//     res.status(404).json({ message: 'Category not found' });
+//     return;
+//   }
+
+//   res.status(200).json({ message: 'Category updated successfully', category });
+// });
+
+ //update category by id
+ exports.updateCategory = asyncHandler(async (req, res) => {
+  let category = await BlogCategory.findById(req.params.Id);
+  
   if (!category) {
-    res.status(404).json({ message: 'Category not found' });
-    return;
+      return res.status(404).json({ message: 'Category not found' });
   }
+ 
+  Object.assign(category, req.body);
+
+  
+  if (req.file) {
+      category.categoryimg = req.file.filename;
+  }
+
+  await category.save();
 
   res.status(200).json({ message: 'Category updated successfully', category });
 });
-
- //update category by id
-exports.updateCategory = asyncHandler(async (req, res) => {
-  const category = await BlogCategory.findByIdAndUpdate(
-    req.params.Id,
-    req.body,
-    { new: true }
-  );
-    if (!category) {
-        res.status(404).json({ message: 'Category not found' });
-        return;
-    }
-    res.status(200).json({ message: 'Category updated successfully', category });
-}
-);
  
 
 // Delete a category by id
