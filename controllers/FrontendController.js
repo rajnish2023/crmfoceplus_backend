@@ -30,7 +30,7 @@ exports.getAllBlogs = async (req, res) => {
 exports.getBlogBySlug = async (req, res) => {
     const { slug } = req.params;
     try {
-      const blog = await Blog.findOne({ slug, status: 'published' }).populate('author').populate('category');
+      const blog = await Blog.findOne({ slug, status: 'Published' }).populate('author').populate('category');
       if (!blog) {
         return res.status(404).json({ message: 'Blog not found or not published' });
       }
