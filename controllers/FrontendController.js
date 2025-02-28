@@ -16,17 +16,29 @@ exports.getAllBlogs = async (req, res) => {
  
 
 // Fetch blog by slug
+// exports.getBlogBySlug = async (req, res) => {
+//     const { slug } = req.params;
+//     try {
+//         const blog = await Blog.findOne({ slug }).populate('author').populate('category');
+//         res.status(200).json(blog);
+//     }
+//     catch (error) {
+//         res.status(500).json({ message: error.message });
+//     }
+// };
+
 exports.getBlogBySlug = async (req, res) => {
     const { slug } = req.params;
     try {
-        const blog = await Blog.findOne({ slug }).populate('author').populate('category');
-        res.status(200).json(blog);
+      const blog = await Blog.findOne({ slug, status: 'published' }).populate('author').populate('category');
+      if (!blog) {
+        return res.status(404).json({ message: 'Blog not found or not published' });
+      }
+      res.status(200).json(blog);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
     }
-    catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
+  };
 // fetch categories list if status is active  
 
 exports.getCategories = async (req, res) => {
@@ -74,6 +86,20 @@ exports.getAuthors = async (req, res) => {
         const authors = await User.find({ status: 'Active' });
         res.status(200).json(authors);
     } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+//blog show preview 
+
+exports.getBlogPreview = async (req, res) => {
+    const { slug } = req.params;
+    try {
+        const blog = await Blog.findOne({ slug }).populate('author').populate('category');
+        res.status(200).json(blog);
+    }
+    catch (error) {
         res.status(500).json({ message: error.message });
     }
 };

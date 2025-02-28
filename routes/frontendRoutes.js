@@ -23,6 +23,11 @@ router.get('/blog/categories', BlogController.getCategories);
 router.get('/blog/authors', BlogController.getAuthors);
 
 
+//route to show blog preview
+router.get('/blogs/preview/:slug', BlogController.getBlogPreview);
+
+
+
  
 
 module.exports = router;
