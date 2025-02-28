@@ -67,7 +67,7 @@ exports.getBlogsByAuthor = async (req, res) => {
     }
 }
 
-//fetch authors list if status is active 
+//fetch authors list if status is active
 
 exports.getAuthors = async (req, res) => {
     try {
